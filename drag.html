@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        #wrap{
+            margin: auto;
+            width: 400px;
+            height: 200px;
+            background-color: rgba(0,0,0,.5);
+        }
+        img{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap"></div>
+    <script>
+
+
+        let box = document.getElementById('wrap');
+        box.ondragover = function(e){
+            e = e || event;
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        box.ondrop = function(e){
+            e = e || event;
+            e.stopPropagation();
+            e.preventDefault();
+            let imgFiles = e.dataTransfer.files;
+            // console.log(Array.prototype.slice.call(imgFiles) instanceof Array)
+            let arr = Array.prototype.slice.call(imgFiles);
+            arr.forEach(item => {
+                let ansFile = new FileReader();
+                ansFile.readAsDataURL(item);
+                ansFile.onload = function(){
+                    console.log(123)
+                    let img = new Image();
+                    img.src = this.result;
+                    img.onload = function(){
+                        box.appendChild(img);
+                    }
+                }
+            });
+                
+
+        }
+
+
+    </script>
+</body>
+</html>
